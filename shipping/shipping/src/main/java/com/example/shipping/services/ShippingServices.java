@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,8 +21,8 @@ public class ShippingServices {
         this.shippingRepo = shippingRepo;
     }
 
-    public static void shipmentByUserID(long userID) {
-
+    public  List<Shipping> shipmentByUserID(long userID) {
+        return shippingRepo.findShippingsByIdUser(userID);
     }
     public void startShipment(Long IdShipping) {
         Optional<Shipping> optionalShipment = shippingRepo.findByIdShipping(IdShipping);
@@ -40,5 +41,9 @@ public class ShippingServices {
     }
     public Shipping updateShipmentStatus(Long idShipping, ShipmentStatus status){
 
+    }
+    public void takeOrder(Shipping shipment){
+        shipment.setStatus(ShipmentStatus.Pending);
+        shippingRepo.save(shipment);
     }
 }

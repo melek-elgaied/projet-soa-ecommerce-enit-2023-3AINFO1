@@ -15,6 +15,21 @@ import java.util.UUID;
 @Service
 
 public class ShippingServices {
+    public  void updateShipmentStatus(Long id, ShipmentStatus shipmentStatus){
+        Optional<Shipping> optionalShipment = shippingRepo.findByIdShipping(id);
+
+        if (optionalShipment.isPresent()) {
+            Shipping shipment = optionalShipment.get();
+            shipment.setStatus(shipmentStatus);
+
+            shippingRepo.save(shipment);
+
+
+        } else {
+
+            throw new EntityNotFoundException("Shipment with IdShipping " + id + " not found");
+        }
+    }
     private final ShippingRepository shippingRepo;
     @Autowired
     public ShippingServices(ShippingRepository shippingRepo) {
@@ -25,25 +40,14 @@ public class ShippingServices {
         return shippingRepo.findShippingsByIdUser(userID);
     }
     public void startShipment(Long IdShipping) {
-        Optional<Shipping> optionalShipment = shippingRepo.findByIdShipping(IdShipping);
-
-        if (optionalShipment.isPresent()) {
-            Shipping shipment = optionalShipment.get();
-            shipment.setStatus(ShipmentStatus.Shipping);
-
-            shippingRepo.save(shipment);
-
-
-        } else {
-
-            throw new EntityNotFoundException("Shipment with IdShipping " + IdShipping + " not found");
-        }
-    }
-    public Shipping updateShipmentStatus(Long idShipping, ShipmentStatus status){
+        updateShipmentStatus(IdShipping,ShipmentStatus.Shipping);
 
     }
-    public void takeOrder(Shipping shipment){
-        shipment.setStatus(ShipmentStatus.Pending);
-        shippingRepo.save(shipment);
+    public void deliverShipment(Long idShipping) {
+        updateShipmentStatus(idShipping,ShipmentStatus.Delivered);
+    }
+    public void takeOrder(Shipping shipping){
+        shipping.setStatus(ShipmentStatus.Pending);
+        shippingRepo.save(shipping);
     }
 }

@@ -27,4 +27,32 @@ public class Shipping {
     public Long getIdShipping() {
         return idShipping;
     }
+
+    public void setIdShipping(Long idShipping) {
+        this.idShipping = idShipping;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getAddressUser() {
+        return addressUser;
+    }
+
+    public void setAddressUser(String addressUser) {
+        this.addressUser = addressUser;
+    }
+
+    public ShipmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShipmentStatus status) {
+        this.status = status;
+    }
 }

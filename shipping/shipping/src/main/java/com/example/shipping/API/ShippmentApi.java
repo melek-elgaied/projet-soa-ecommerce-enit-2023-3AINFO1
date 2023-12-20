@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/shippment")
 public class ShippmentApi {
@@ -19,21 +21,31 @@ public class ShippmentApi {
         this.shippingServices=shippingService;
     }
 
-    @PostMapping("/startshippemnt")
-    public ResponseEntity<Shipping> startShippementAPI(Shipping shipping,long userID)
-    {
-        Shipping newShipping = shippingServices.startShipment(shipping);
-
-        return new ResponseEntity<>(newShipping, HttpStatus.CREATED);
-
+    @GetMapping("/shippment/{userid}")
+    public ResponseEntity<List<Shipping>> getShippementsByIdUser(long userID) {
+        List<Shipping> shippings = shippingServices.shipmentByUserID(userID);
+        return new ResponseEntity<>(shippings, HttpStatus.OK);
     }
 
-    @PutMapping("/updateShippemnt")
-    public ResponseEntity<Shipping> updateShippementAPI(Long idShipping, ShipmentStatus status)
+    @PostMapping("/startshippemnt")
+    public ResponseEntity<Shipping> startShippementAPI(Long idShippment)
     {
-        Shipping updateShipping = shippingServices.updateShipmentStatus(idShipping,status);
-        shippingServices.shipmentByUserID(userID);
-        return new ResponseEntity<>(updateShipping, HttpStatus.OK);
+        shippingServices.startShipment(idShippment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/takeOrder")
+    public ResponseEntity<Shipping> takeOrderToShippmentAPI(Shipping shipping)
+    {
+        shippingServices.takeOrder(shipping);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/deliverShippment")
+    public ResponseEntity<Shipping> deliverShippmentAPI(Long idShipping)
+    {
+        shippingServices.deliverShipment(idShipping);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

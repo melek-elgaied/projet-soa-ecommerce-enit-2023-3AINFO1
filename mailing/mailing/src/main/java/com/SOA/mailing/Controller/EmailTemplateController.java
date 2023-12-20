@@ -77,7 +77,7 @@ public class EmailTemplateController {
         }
     }
     @GetMapping("/get/{name}")
-    public ResponseEntity<?> getTemplateById(@PathVariable String name) {
+    public ResponseEntity<?> getTemplateByName(@PathVariable String name) {
         if (name== null) {
             throw new IllegalArgumentException("The given name must not be null");
         }

@@ -3,11 +3,13 @@ package com.example.shipping.shipping;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 public class Shipping {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
@@ -18,12 +20,6 @@ public class Shipping {
     private ShipmentStatus status;
 
 
-    public Shipping(){
-        this.status=ShipmentStatus.Shipping;
-    }
-
-
-    @jakarta.persistence.Id
     public Long getIdShipping() {
         return idShipping;
     }

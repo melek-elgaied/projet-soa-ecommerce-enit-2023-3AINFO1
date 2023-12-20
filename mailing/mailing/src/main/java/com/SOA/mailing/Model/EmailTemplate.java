@@ -1,6 +1,5 @@
 package com.SOA.mailing.Model;
 
-import com.SOA.mailing.Enum.TemplateType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,8 +18,8 @@ public class EmailTemplate implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long TemplateId;
-    private TemplateType type;
-    private String subject;
+    @Column(unique = true)
+    private String name;
     @Column(columnDefinition = "TEXT")
     private String body;
 }

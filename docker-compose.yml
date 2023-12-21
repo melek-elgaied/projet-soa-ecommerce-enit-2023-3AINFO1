@@ -34,13 +34,12 @@ services:
     ports:
       - 5436:5432
   db_order:
-    image: postgres:15.0
+    image: mongo:4.4
     environment:
-      POSTGRES_DB: db_order
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: azerty
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: azerty
     ports:
-      - 5437:5432
+      - 27017:27017
   db_payment:
     image: postgres:15.0
     environment:
@@ -58,13 +57,14 @@ services:
     ports:
       - 5439:5432
   db_rating:
-    image: postgres:15.0
+    container_name: "rating-mongodb"
+    image: "mongo:latest"
     environment:
-      POSTGRES_DB: db_rating
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: azerty
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=azerty
+      - MONGO_INITDB_DATABASE=test
     ports:
-      - 5440:5432
+      - 27017:27017
   db_reviews:
     image: postgres:15.0
     environment:
@@ -119,12 +119,12 @@ services:
   search:
     image: solr:8
     ports:
-     - "8983:8983"
+      - "8983:8983"
     volumes:
       - data:/var/solr
     entrypoint:
-    - bash
-    - "-c"
-    - "precreate-core products-index; exec solr -f"
+      - bash
+      - "-c"
+      - "precreate-core products-index; exec solr -f"
 volumes:
   data:

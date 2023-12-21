@@ -11,5 +11,6 @@ public interface Index {
 
     public void index(List<Product> products);
 
-    public Map<Long,Integer> getStat();
+    public Map<Long,Integer> getStat(String word);
+
 }

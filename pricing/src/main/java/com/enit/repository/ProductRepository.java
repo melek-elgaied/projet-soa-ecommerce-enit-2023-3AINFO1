@@ -7,10 +7,9 @@ import java.util.UUID;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
-import com.enit.domain.Product;
+import com.enit.domain.ProductPrice;
 
 @ApplicationScoped
 @Transactional
@@ -19,19 +18,19 @@ public class ProductRepository {
     @Inject
     EntityManager em;
 
-    public Optional<Product> findProductById(UUID productId) {
-        return Optional.ofNullable(em.find(Product.class, productId));
+    public Optional<ProductPrice> findProductById(UUID productId) {
+        return Optional.ofNullable(em.find(ProductPrice.class, productId));
     }
 
-    public List<Product> findAllProducts() {
-        return em.createQuery("from Product p ",Product.class).getResultList();
+    public List<ProductPrice> findAllProducts() {
+        return em.createQuery("from Product p ", ProductPrice.class).getResultList();
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(ProductPrice product) {
         em.persist(product);
     }
 
-    public void updateProduct(Product product) {
+    public void updateProduct(ProductPrice product) {
         em.merge(product);
     }
 

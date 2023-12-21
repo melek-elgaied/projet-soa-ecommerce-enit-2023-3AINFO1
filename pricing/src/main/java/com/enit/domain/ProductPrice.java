@@ -4,13 +4,15 @@ import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+
 @Entity
 @Data
-public class Product {
+@AllArgsConstructor
+public class ProductPrice {
     @Id
     UUID productId;
-    double price;
-
+    double productPrice;
 }
 

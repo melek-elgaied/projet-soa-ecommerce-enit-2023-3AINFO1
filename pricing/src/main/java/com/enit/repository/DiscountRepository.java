@@ -11,7 +11,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 import com.enit.domain.Discount;
-import com.enit.domain.Product;
+import com.enit.domain.ProductPrice;
 
 @ApplicationScoped
 @Transactional
@@ -28,7 +28,7 @@ public class DiscountRepository {
         return em.createQuery("SELECT d FROM Discount d", Discount.class).getResultList();
     }
 
-    public List<Discount> findDiscountsByProduct(Product product) {
+    public List<Discount> findDiscountsByProduct(ProductPrice product) {
         TypedQuery<Discount> query = em.createQuery("SELECT d FROM Discount d WHERE d.product = :product", Discount.class);
         query.setParameter("product", product);
         return query.getResultList();

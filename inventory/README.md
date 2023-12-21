@@ -4,14 +4,13 @@ This microservice provides endpoints for managing product inventory.
 
 ## Endpoints
 ### 1. Retrieve Product information based on its name
-
 **Endpoint:**
 ```shell script
 GET /api/inventory/{productName}
 ```
 ### 2. Get All Inventory
 
-returns a list with all products in stock.
+returns a list with all products in stock.//
 **Endpoint:**
 ```shell script
 GET /api/inventory/all

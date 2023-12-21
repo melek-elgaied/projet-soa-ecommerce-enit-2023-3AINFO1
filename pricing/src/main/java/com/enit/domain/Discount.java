@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import java.time.LocalDateTime;
 import com.enit.domain.*;
@@ -42,6 +44,4 @@ public class Discount{
         this.product=product;
 
     }
-
-
 }

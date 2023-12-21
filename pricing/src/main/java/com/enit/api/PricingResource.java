@@ -1,12 +1,17 @@
 package com.enit.api;
 
+import com.enit.service.PricingService;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/hello")
-public class ExampleResource {
+@Path("/pricing")
+public class PricingResource {
+
+    @Inject
+    PricingService pricingService;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)

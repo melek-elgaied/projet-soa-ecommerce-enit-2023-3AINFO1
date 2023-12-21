@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -50,5 +51,33 @@ public class InventoryController {
         return  new ResponseEntity<>( HttpStatus.OK);
     }
 
+    @GetMapping("/quantity/{productId}")
+    public ResponseEntity<?> getProductQuantityInStock(@PathVariable Long productId) {
+        Optional<Integer> quantity = inventoryService.getProductAvailableQuantity(productId);
+        if (quantity.isPresent()) {
+            return ResponseEntity.ok(quantity.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/sortie/{productId}/{quantity}")
+    public ResponseEntity<?> enregistrerSortieCommande(@PathVariable Long productId, @PathVariable int quantity) {
+        boolean result = inventoryService.enregistrerSortieCommande(productId, quantity);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @PutMapping("/update/{productId}/{addedQuantity}")
+    public ResponseEntity<?> updateQuantityProduct(@PathVariable Long productId, @PathVariable int addedQuantity) {
+        boolean result = inventoryService.updateQuantityProduct(productId, addedQuantity);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 }

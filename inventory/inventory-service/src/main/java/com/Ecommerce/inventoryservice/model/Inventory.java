@@ -20,7 +20,10 @@ public class Inventory {
     @Column(name = "product_name")
     private String productName;
 
-    @Column(name = "available_quantity")
-    private int availableQuantity;
+    @Column(name = "stock_quantity")
+    private int stockQuantity;
+
+    @Column (name="reserved_quantity")
+    private int reservedQuantity;
 
 }

@@ -10,7 +10,7 @@ GET /api/inventory/{productName}
 ```
 ### 2. Get All Inventory
 
-returns a list with all products in stock.//
+returns a list with all products in stock./n
 **Endpoint:**
 ```shell script
 GET /api/inventory/all

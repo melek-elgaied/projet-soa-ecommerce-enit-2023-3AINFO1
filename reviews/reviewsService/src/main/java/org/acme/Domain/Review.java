@@ -39,6 +39,13 @@ public class Review {
     public Avis getAvis() {
         return avis;
     }
-
+    public static Review from(Row row) {
+        return new Review(
+            new reviewID(row.getString("reviewID")),
+            new UserID(row.getString("userID")),
+            new ProductID(row.getString("productID")),
+            new Avis(row.getString("avis"))
+        );
+    }
     
 }

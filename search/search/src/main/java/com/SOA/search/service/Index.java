@@ -13,4 +13,5 @@ public interface Index {
 
     public Map<Long,Integer> getStat(String word);
 
+    public void removeFromIndex(long id);
 }

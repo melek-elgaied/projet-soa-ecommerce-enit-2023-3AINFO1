@@ -31,4 +31,9 @@ public class IndexElasticSearchImpl implements Index {
     public Map<Long, Integer> getStat(String word) {
         return null;
     }
+
+    @Override
+    public void removeFromIndex(long id) {
+        productElasticSearchRepository.deleteById(id);
+    }
 }

@@ -44,6 +44,16 @@ public class IndexMapImpl implements Index {
         return index.getOrDefault(word, new HashMap<>());
 
     }
+
+    @Override
+    public void removeFromIndex(long id) {
+        for (Map<Long, Integer> occurrences : index.values()) {
+            occurrences.remove(id);
+        }
+        productMap.remove(id);
+
+    }
+
     public Product getProductById(Long productId) {
         return productMap.get(productId);
     }

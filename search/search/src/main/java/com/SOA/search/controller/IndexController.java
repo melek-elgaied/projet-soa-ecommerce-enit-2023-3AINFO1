@@ -29,6 +29,6 @@ public class IndexController implements IndexApi {
 
     @Override
     public void removeFromIndex(long id) {
-
+        indexElasticSearch.removeFromIndex(id);
     }
 }

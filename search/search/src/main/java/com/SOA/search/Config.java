@@ -13,7 +13,7 @@ public class Config {
      * This part is reserved for Spring beans definitions.
      */
 
-    @Bean
+    //@Bean
     public SimilarityService similarityService() {
         return new SimilarityServiceElasticSearchImpl();
     }

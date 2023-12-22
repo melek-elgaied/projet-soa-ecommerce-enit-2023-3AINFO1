@@ -49,6 +49,11 @@ public class SearchServiceImplMap implements SearchService {
         return matchingProducts;
     }
 
+    @Override
+    public List<Product> findAll() {
+        return null;
+    }
+
     private int countMatchingWords(String description, String[] queryWords) {
         int count = 0;
         for (String word : queryWords) {

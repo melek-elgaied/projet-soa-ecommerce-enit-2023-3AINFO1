@@ -21,4 +21,12 @@ public interface SearchApi {
             @ApiResponse(code = 400, message = "Bad Request")
     })
     public List<Product> searchByText(@RequestBody SearchQuery searchquery);
+
+
+    @GetMapping(value = Constants.FIND_ALL)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200,message = "products are fetched "),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
+    public Iterable<Product> findAll();
 }

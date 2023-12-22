@@ -14,6 +14,8 @@ public interface SearchService {
     public void index(List<Product> products);
     public List<Product> searchByText(SearchQuery searchquery) throws BadRequestException;
 
+    public Iterable<Product> findAll() ;
+
 
 
 }

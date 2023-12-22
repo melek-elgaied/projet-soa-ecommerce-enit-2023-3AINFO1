@@ -5,6 +5,7 @@ public interface Constants {
     String APP_ROOT = "searchservices/api/v1";
 
     String SEARCH_BY_TEXT_ENDPOINT = APP_ROOT + "/searchbytext";
+    String FIND_ALL = APP_ROOT + "/findall";
 
     String SEARCH_BY_SIMILARITY_ENDPOINT = APP_ROOT + "/searchbysimilarity";
     String INDEX_ENDPOINT = APP_ROOT + "/index";

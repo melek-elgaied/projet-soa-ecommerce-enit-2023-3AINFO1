@@ -27,32 +27,38 @@ public class PricingService {
         return productRepository.findProductById(id);
     }
 
+    @Transactional
     public List<ProductPrice> getAllPrices() {
         return productRepository.findAllProducts();
     }
-
+    @Transactional
     public double calculateOrderPrice(List<UUID> productList) {
         return 0;
     }
 
+    @Transactional
     public void addPrice(UUID idProduct, double price) {
         ProductPrice productPrice=new ProductPrice(idProduct,price);
         productRepository.addProduct(productPrice);
     }
 
+    @Transactional
     public void updatePrice(UUID idProduct, double price) {
         ProductPrice productPrice=new ProductPrice(idProduct,price);
         productRepository.updateProduct(productPrice);
     }
 
+    @Transactional
     public void addDiscount(UUID idProduct, double percentage, LocalDateTime discountStartDate, LocalDateTime discountEndDate) {
         Discount discount=new Discount(idProduct,percentage,discountStartDate,discountEndDate);
         discountRepository.createDiscount(discount);
     }
 
+    @Transactional
     public void extendDiscountEndDate(UUID idProduct, LocalDateTime discountEndDate) {
     }
 
+    @Transactional
     public void extendDiscountStartDate(UUID idProduct, LocalDateTime discountStartDate) {
     }
 }

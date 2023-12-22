@@ -45,4 +45,8 @@ public class Discount{
         }
         this.product= new ProductPrice(product.getProductId(),product.getProductPrice());
     }
+
+    public boolean isValid() {
+        return this.discountValidation;
+    }
 }

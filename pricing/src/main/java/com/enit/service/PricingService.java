@@ -4,6 +4,7 @@ import com.enit.domain.Discount;
 import com.enit.domain.ProductPrice;
 import com.enit.repository.DiscountRepository;
 import com.enit.repository.ProductRepository;
+import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -22,15 +23,39 @@ public class PricingService {
     @Inject
     ProductRepository productRepository;
 
+
     @Transactional
     public Optional<ProductPrice> getPriceByProductId(UUID id) {
-        return productRepository.findProductById(id);
+        Optional<ProductPrice> o = productRepository.findProductById(id);
+        if (o.isPresent()) {
+            ProductPrice productPrice = o.get();
+            Optional<Discount> optionalDiscount = discountRepository.findMaxPercentageDiscountByProduct(productPrice);
+            if (optionalDiscount.isPresent()) {
+                Discount discount = optionalDiscount.get();
+                double discountedPrice = productPrice.getProductPrice() * (1 - discount.getDiscountPercentage());
+                productPrice.setProductPrice(discountedPrice);
+            }
+        }
+        return o;
     }
+
 
     @Transactional
     public List<ProductPrice> getAllPrices() {
-        return productRepository.findAllProducts();
+        List<ProductPrice> allPrices = productRepository.findAllProducts();
+        for (ProductPrice p : allPrices) {
+            Optional<Discount> discountOptional = discountRepository.findMaxPercentageDiscountByProduct(p);
+            if (discountOptional.isPresent()) {
+                Discount discount = discountOptional.get();
+                if (discount.isValid()) {
+                    double discountedPrice = p.getProductPrice() * (1 - discount.getDiscountPercentage());
+                    p.setProductPrice(discountedPrice);
+                }
+            }
+        }
+        return allPrices;
     }
+
 
     @Transactional
     public double calculateOrderPrice(List<UUID> productList) {
@@ -80,5 +105,21 @@ public class PricingService {
             discount.setDiscountStartDate(discountStartDate);
             discountRepository.updateDiscount(discount);
         });
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void updateDiscountValidationStatus() {
+        List<Discount> allDiscounts = discountRepository.findAllDiscounts();
+        LocalDateTime currentDate = LocalDateTime.now();
+        for (Discount discount : allDiscounts) {
+            if (!discount.isValid() && currentDate.isEqual(discount.getDiscountStartDate())) {
+                discount.setDiscountValidation(true);
+                discountRepository.updateDiscount(discount);
+            } else if (discount.isValid() && currentDate.isEqual(discount.getDiscountEndDate().plusDays(1))) {
+                discount.setDiscountValidation(false);
+                discountRepository.updateDiscount(discount);
+            }
+        }
     }
 }

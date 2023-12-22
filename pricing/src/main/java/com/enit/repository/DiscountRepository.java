@@ -33,6 +33,19 @@ public class DiscountRepository {
         query.setParameter("product", product);
         return query.getResultList();
     }
+    public Optional<Discount> findMaxPercentageDiscountByProduct(ProductPrice product) {
+        TypedQuery<Discount> query = em.createQuery(
+                "SELECT d FROM Discount d " +
+                        "WHERE d.product = :product " +
+                        "AND d.discountValidation = true " +
+                        "ORDER BY d.discountPercentage DESC",
+                Discount.class);
+        query.setParameter("product", product);
+        query.setMaxResults(1);
+        List<Discount> resultList = query.getResultList();
+        return resultList.isEmpty() ? Optional.empty() : Optional.of(resultList.get(0));
+    }
+
 
     public void createDiscount(Discount discount) {
         em.persist(discount);

@@ -17,8 +17,5 @@ public class ProductPrice {
 
     public ProductPrice() {
     }
-
-
-
 }
 

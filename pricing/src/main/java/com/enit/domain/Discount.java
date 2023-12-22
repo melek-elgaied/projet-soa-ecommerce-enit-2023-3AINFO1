@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @Data
 public class Discount{
     @Id
-    UUID discountId;
-    double discountPercentage;
-    LocalDateTime discountStartDate;
-    LocalDateTime discountEndDate;
-    boolean discountValidation;
+    private UUID discountId;
+    private double discountPercentage;
+    private LocalDateTime discountStartDate;
+    private LocalDateTime discountEndDate;
+    private boolean discountValidation;
 
     @ManyToOne
     @JoinColumn(name = "productId")

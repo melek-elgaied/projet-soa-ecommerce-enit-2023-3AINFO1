@@ -12,7 +12,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class ProductPrice {
     @Id
-    UUID productId;
-    double productPrice;
+    private UUID productId;
+    private double productPrice;
+
+    public ProductPrice() {
+    }
+
+
+
 }
 

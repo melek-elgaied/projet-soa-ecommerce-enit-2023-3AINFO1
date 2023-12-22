@@ -23,7 +23,7 @@ public class ProductRepository {
     }
 
     public List<ProductPrice> findAllProducts() {
-        return em.createQuery("from Product p ", ProductPrice.class).getResultList();
+        return em.createQuery("from ProductPrice p ", ProductPrice.class).getResultList();
     }
 
     public void addProduct(ProductPrice product) {

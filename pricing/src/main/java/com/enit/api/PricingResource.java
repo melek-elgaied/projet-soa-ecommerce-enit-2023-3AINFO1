@@ -2,6 +2,7 @@ package com.enit.api;
 
 
 import com.enit.domain.ProductPrice;
+import com.enit.domain.Discount;
 import com.enit.service.PricingService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -30,6 +31,7 @@ public class PricingResource {
     }
 
     @GET
+    @Path("/allProducts")
     public List<ProductPrice> allPrices() {
         return pricingService.getAllPrices();
     }
@@ -60,6 +62,11 @@ public class PricingResource {
         pricingService.addDiscount(idProduct, percentage, discountStartDate, discountEndDate);
     }
 
+    @GET
+    @Path("/showDiscounts")
+    public List<Discount> showDiscount() {
+        return pricingService.getAllDiscounts();
+    }
     @PUT
     @Path("/extendDiscountEndDate")
     public void extendDiscountEndDate(@QueryParam("idProduct") UUID idProduct,

@@ -28,8 +28,9 @@ public class Discount{
     {
         this.discountValidation = false;
     }
-    public Discount(UUID discountId, double percentage, LocalDateTime startDate, LocalDateTime endDate, ProductPrice product) {
-        this.discountId = discountId;
+    public Discount(UUID idProduct, double percentage, LocalDateTime startDate, LocalDateTime endDate) {
+        //idproduct -> product
+        this.discountId = UUID.randomUUID();
         this.discountPercentage = percentage;
         this.discountStartDate = startDate;
         this.discountEndDate = endDate;

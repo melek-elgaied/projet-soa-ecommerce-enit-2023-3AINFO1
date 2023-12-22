@@ -5,7 +5,6 @@ import com.enit.domain.ProductPrice;
 import com.enit.service.PricingService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.time.LocalDateTime;
@@ -21,68 +20,53 @@ public class PricingResource {
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response priceById(@PathParam("id") UUID id) {
-        Optional<ProductPrice> optionalProductPrice = Optional.ofNullable(pricingService.getPriceById(id));
-        return optionalProductPrice.map(productPrice ->
-                        Response.status(Response.Status.OK).entity(productPrice).build())
-                .orElseGet(() ->
-                        Response.status(Response.Status.NOT_FOUND).entity(id).build());
+    public Response priceByProductId(@PathParam("id") UUID id) {
+        Optional<ProductPrice> o= pricingService.getPriceByProductId(id);
+        if(o.isPresent()){
+            return Response.status(Response.Status.OK).entity(o.get()).build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).entity(id).build();
+        }
     }
 
     @GET
-    @Path("/all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response allPrices(List<UUID> productList) {
-        List<ProductPrice> productPrices = pricingService.getAllPrices(productList);
-        return Response.status(Response.Status.OK).entity(productPrices).build();
+    public List<ProductPrice> allPrices() {
+        return pricingService.getAllPrices();
     }
 
     @GET
-    @Path("/commande")
-    public Response commandePrice(List<UUID> productList) {
-        double totalPrice = pricingService.calculateCommandePrice(productList);
-        return Response.status(Response.Status.OK).entity(totalPrice).build();
+    public double orderPrice(List<UUID> productList) {
+        return pricingService.calculateOrderPrice(productList);
     }
 
     @POST
-    @Path("/addPrice")
-    public Response addPrice(@QueryParam("id") UUID idPrice, @QueryParam("price") double price) {
-        Response response = pricingService.addPrice(idPrice, price);
-        return Response.status(response.getStatus()).entity(response.getEntity()).build();
+    public void addPrice(@QueryParam("id") UUID idProduct, @QueryParam("price") double price) {
+        pricingService.addPrice(idProduct, price);
     }
 
     @PUT
-    @Path("/updatePrice")
-    public Response updatePrice(@QueryParam("id") UUID idPrice, @QueryParam("price") double price) {
-        Response response = pricingService.updatePrice(idPrice, price);
-        return Response.status(response.getStatus()).entity(response.getEntity()).build();
+    public void updatePrice(@QueryParam("id") UUID idProduct, @QueryParam("price") double price) {
+        pricingService.updatePrice(idProduct, price);
     }
 
     @POST
-    @Path("/addDiscount")
-    public Response addDiscount(@QueryParam("idProduct") UUID idProduct,
+    public void addDiscount(@QueryParam("idProduct") UUID idProduct,
                                 @QueryParam("percentage") double percentage,
                                 @QueryParam("discountStartDate") LocalDateTime discountStartDate,
                                 @QueryParam("discountEndDate") LocalDateTime discountEndDate) {
-        Response response = pricingService.addDiscount(idProduct, percentage, discountStartDate, discountEndDate);
-        return Response.status(response.getStatus()).entity(response.getEntity()).build();
+        pricingService.addDiscount(idProduct, percentage, discountStartDate, discountEndDate);
     }
 
     @PUT
-    @Path("/extendDiscountEndDate")
-    public Response extendDiscountEndDate(@QueryParam("idProduct") UUID idProduct,
+    public void extendDiscountEndDate(@QueryParam("idProduct") UUID idProduct,
                                           @QueryParam("discountEndDate") LocalDateTime discountEndDate) {
-        Response response = pricingService.extendDiscountEndDate(idProduct, discountEndDate);
-        return Response.status(response.getStatus()).entity(response.getEntity()).build();
+        pricingService.extendDiscountEndDate(idProduct, discountEndDate);
     }
 
     @PUT
-    @Path("/extendDiscountStartDate")
-    public Response extendDiscountStartDate(@QueryParam("idProduct") UUID idProduct,
+    public void extendDiscountStartDate(@QueryParam("idProduct") UUID idProduct,
                                             @QueryParam("discountStartDate") LocalDateTime discountStartDate) {
-        Response response = pricingService.extendDiscountStartDate(idProduct, discountStartDate);
-        return Response.status(response.getStatus()).entity(response.getEntity()).build();
+        pricingService.extendDiscountStartDate(idProduct, discountStartDate);
     }
 }
 

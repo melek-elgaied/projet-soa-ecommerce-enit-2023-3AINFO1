@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service
@@ -66,7 +67,7 @@ public class SearchServiceElasticSearchImpl implements SearchService {
 
 
     public SearchResponse<Product> matchProductsWithDescription(String fieldValue) throws IOException {
-        Supplier<Query> supplier  = ElasticSearchUtil.supplierWithDescriptionField(fieldValue);
+        Supplier<Query> supplier  = ElasticSearchUtil.supplierWithIdField(fieldValue);
         SearchResponse<Product> searchResponse = elasticsearchClient.search(s->s.index("products").query(supplier.get()),Product.class);
         System.out.println("elasticsearch query is "+supplier.get().toString());
         return searchResponse;
@@ -75,5 +76,10 @@ public class SearchServiceElasticSearchImpl implements SearchService {
     @Override
     public Iterable<Product> findAll() {
         return productElasticSearchRepository.findAll();
+    }
+
+    @Override
+    public Optional<Product> searchById(long id) {
+        return productElasticSearchRepository.findById(id);
     }
 }

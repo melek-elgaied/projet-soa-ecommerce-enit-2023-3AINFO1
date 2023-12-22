@@ -5,6 +5,7 @@ import com.SOA.search.exception.BadRequestException;
 import com.SOA.search.model.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 
 // this service is used to index products and search products by text
@@ -15,6 +16,8 @@ public interface SearchService {
     public List<Product> searchByText(SearchQuery searchquery) throws BadRequestException;
 
     public Iterable<Product> findAll() ;
+
+    public Optional<Product> searchById(long id);
 
 
 

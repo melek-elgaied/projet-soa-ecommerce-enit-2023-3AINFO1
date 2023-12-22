@@ -6,6 +6,7 @@ public interface Constants {
 
     String SEARCH_BY_TEXT_ENDPOINT = APP_ROOT + "/searchbytext";
     String FIND_ALL = APP_ROOT + "/findall";
+    String SEARCH_BY_ID= APP_ROOT + "/findbyid/{id}";
 
     String SEARCH_BY_SIMILARITY_ENDPOINT = APP_ROOT + "/searchbysimilarity";
     String INDEX_ENDPOINT = APP_ROOT + "/index";

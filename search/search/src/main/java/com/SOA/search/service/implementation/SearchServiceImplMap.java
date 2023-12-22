@@ -54,6 +54,11 @@ public class SearchServiceImplMap implements SearchService {
         return null;
     }
 
+    @Override
+    public Optional<Product> searchById(long id) {
+        return Optional.ofNullable(index.getProductById(id));
+    }
+
     private int countMatchingWords(String description, String[] queryWords) {
         int count = 0;
         for (String word : queryWords) {

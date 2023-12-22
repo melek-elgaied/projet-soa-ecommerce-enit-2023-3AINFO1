@@ -40,16 +40,19 @@ public class PricingResource {
     }
 
     @POST
+    @Path("/addPrice")
     public void addPrice(@QueryParam("id") UUID idProduct, @QueryParam("price") double price) {
         pricingService.addPrice(idProduct, price);
     }
 
     @PUT
+    @Path("/updatePrice")
     public void updatePrice(@QueryParam("id") UUID idProduct, @QueryParam("price") double price) {
         pricingService.updatePrice(idProduct, price);
     }
 
     @POST
+    @Path("/addDiscount")
     public void addDiscount(@QueryParam("idProduct") UUID idProduct,
                                 @QueryParam("percentage") double percentage,
                                 @QueryParam("discountStartDate") LocalDateTime discountStartDate,
@@ -58,12 +61,14 @@ public class PricingResource {
     }
 
     @PUT
+    @Path("/extendDiscountEndDate")
     public void extendDiscountEndDate(@QueryParam("idProduct") UUID idProduct,
                                           @QueryParam("discountEndDate") LocalDateTime discountEndDate) {
         pricingService.extendDiscountEndDate(idProduct, discountEndDate);
     }
 
     @PUT
+    @Path("/extendDiscountStartDate")
     public void extendDiscountStartDate(@QueryParam("idProduct") UUID idProduct,
                                             @QueryParam("discountStartDate") LocalDateTime discountStartDate) {
         pricingService.extendDiscountStartDate(idProduct, discountStartDate);

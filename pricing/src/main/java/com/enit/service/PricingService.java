@@ -26,7 +26,6 @@ public class PricingService {
     public Optional<ProductPrice> getPriceByProductId(UUID id) {
         return productRepository.findProductById(id);
     }
-
     @Transactional
     public List<ProductPrice> getAllPrices() {
         return productRepository.findAllProducts();
@@ -34,16 +33,7 @@ public class PricingService {
 
     @Transactional
     public double calculateOrderPrice(List<UUID> productList) {
-        double somme = 0;
-        for (UUID id : productList) {
-            Optional<ProductPrice> productPriceOptional = getPriceByProductId(id);
-            if (productPriceOptional.isPresent()) {
-                ProductPrice productPrice = productPriceOptional.get();
-                double price = productPrice.getProductPrice();
-                somme += price;
-            }
-        }
-        return somme;
+        return 0;
     }
 
     @Transactional
@@ -60,25 +50,25 @@ public class PricingService {
 
     @Transactional
     public void addDiscount(UUID idProduct, double percentage, LocalDateTime discountStartDate, LocalDateTime discountEndDate) {
-        Discount discount=new Discount(idProduct,percentage,discountStartDate,discountEndDate);
-        discountRepository.createDiscount(discount);
+        Optional<ProductPrice> productPrice = productRepository.findProductById(idProduct);
+        if (productPrice.isPresent()) {
+            Discount discount=new Discount(productPrice.get(),percentage,discountStartDate,discountEndDate);
+            discountRepository.createDiscount(discount);
+        } else {
+            Discount discount=new Discount(null,percentage,discountStartDate,discountEndDate);
+            discountRepository.createDiscount(discount);
+        }
     }
 
     @Transactional
+    public List<Discount> getAllDiscounts() {
+        return discountRepository.findAllDiscounts();
+    }
+    @Transactional
     public void extendDiscountEndDate(UUID idProduct, LocalDateTime discountEndDate) {
-        Optional<Discount> optionalDiscount = discountRepository.findDiscountById(idProduct);
-        optionalDiscount.ifPresent(discount -> {
-            discount.setDiscountEndDate(discountEndDate);
-            discountRepository.updateDiscount(discount);
-        });
     }
 
     @Transactional
     public void extendDiscountStartDate(UUID idProduct, LocalDateTime discountStartDate) {
-        Optional<Discount> optionalDiscount = discountRepository.findDiscountById(idProduct);
-        optionalDiscount.ifPresent(discount -> {
-            discount.setDiscountStartDate(discountStartDate);
-            discountRepository.updateDiscount(discount);
-        });
     }
 }

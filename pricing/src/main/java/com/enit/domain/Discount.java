@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import com.enit.domain.ProductPrice;
 
 @Entity
 @Data
@@ -26,10 +27,10 @@ public class Discount{
 
     public Discount()
     {
+        this.discountId = UUID.randomUUID();
         this.discountValidation = false;
     }
-    public Discount(UUID idProduct, double percentage, LocalDateTime startDate, LocalDateTime endDate) {
-        //idproduct -> product
+    public Discount(ProductPrice product, double percentage, LocalDateTime startDate, LocalDateTime endDate) {
         this.discountId = UUID.randomUUID();
         this.discountPercentage = percentage;
         this.discountStartDate = startDate;
@@ -43,6 +44,16 @@ public class Discount{
         else {
             this.discountValidation = false;
         }
-        this.product= new ProductPrice(product.getProductId(),product.getProductPrice());
+        //this.product= new ProductPrice(product.getProductId(),product.getProductPrice());
+        this.product= product;
     }
+
+    public Discount(UUID discountId, double discountPercentage, LocalDateTime discountStartDate, LocalDateTime discountEndDate, ProductPrice product) {
+        this.discountId = discountId;
+        this.discountPercentage = discountPercentage;
+        this.discountStartDate = discountStartDate;
+        this.discountEndDate = discountEndDate;
+        this.product = product;
+    }
+
 }

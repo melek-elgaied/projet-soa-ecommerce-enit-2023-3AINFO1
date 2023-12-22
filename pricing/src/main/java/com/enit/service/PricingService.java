@@ -31,9 +31,19 @@ public class PricingService {
     public List<ProductPrice> getAllPrices() {
         return productRepository.findAllProducts();
     }
+
     @Transactional
     public double calculateOrderPrice(List<UUID> productList) {
-        return 0;
+        double somme = 0;
+        for (UUID id : productList) {
+            Optional<ProductPrice> productPriceOptional = getPriceByProductId(id);
+            if (productPriceOptional.isPresent()) {
+                ProductPrice productPrice = productPriceOptional.get();
+                double price = productPrice.getProductPrice();
+                somme += price;
+            }
+        }
+        return somme;
     }
 
     @Transactional
@@ -56,9 +66,19 @@ public class PricingService {
 
     @Transactional
     public void extendDiscountEndDate(UUID idProduct, LocalDateTime discountEndDate) {
+        Optional<Discount> optionalDiscount = discountRepository.findDiscountById(idProduct);
+        optionalDiscount.ifPresent(discount -> {
+            discount.setDiscountEndDate(discountEndDate);
+            discountRepository.updateDiscount(discount);
+        });
     }
 
     @Transactional
     public void extendDiscountStartDate(UUID idProduct, LocalDateTime discountStartDate) {
+        Optional<Discount> optionalDiscount = discountRepository.findDiscountById(idProduct);
+        optionalDiscount.ifPresent(discount -> {
+            discount.setDiscountStartDate(discountStartDate);
+            discountRepository.updateDiscount(discount);
+        });
     }
 }

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: jboss/keycloak:15.0.0
+    ports:
+      - "8081:8081"
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - DB_DATABASE=keycloakdb
+      - DB_USER=keycloakdb
+      - DB_PASSWORD=keycloakdb
+      - DB_ADDR=keycloakdb
+      - DB_VENDOR=redis
+    volumes:
+      - ./IAM:/tmp
+    networks:
+      internal:
+    depends_on:
+      - keycloakdb
+
+  keycloakdb:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    networks:
+      - internal
+
+networks:
+  internal:

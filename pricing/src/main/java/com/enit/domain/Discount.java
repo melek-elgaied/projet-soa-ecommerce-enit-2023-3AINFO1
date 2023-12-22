@@ -7,41 +7,47 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+
 import java.time.LocalDateTime;
-import com.enit.domain.*;
+import com.enit.domain.ProductPrice;
+
 @Entity
 @Data
 public class Discount{
     @Id
-    UUID discountId;
-    double percentage;
-    LocalDateTime startDate;
-    LocalDateTime endDate;
-    boolean valid;
+    private UUID discountId;
+    private double discountPercentage;
+    private LocalDateTime discountStartDate;
+    private LocalDateTime discountEndDate;
+    private boolean discountValidation;
 
     @ManyToOne
     @JoinColumn(name = "productId")
-    private Product product;
+    private ProductPrice product;
 
     public Discount()
     {
-        this.valid= false;
+        this.discountId = UUID.randomUUID();
+        this.discountValidation = false;
     }
-    public Discount(UUID discountId, double percentage, LocalDateTime startDate, LocalDateTime endDate, Product product) {
-        this.discountId = discountId;
-        this.percentage = percentage;
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public Discount(ProductPrice product, double percentage, LocalDateTime startDate, LocalDateTime endDate) {
+        this.discountId = UUID.randomUUID();
+        this.discountPercentage = percentage;
+        this.discountStartDate = startDate;
+        this.discountEndDate = endDate;
         LocalDateTime currentDate = LocalDateTime.now();
         if(currentDate.isEqual(startDate) || currentDate.isEqual(endDate) ||
                 (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)))
         {
-            this.valid = true;
+            this.discountValidation = true;
         }
         else {
-            this.valid= false;
+            this.discountValidation = false;
         }
-        this.product=product;
+        this.product= product;
+    }
 
+    public boolean isValid() {
+        return this.discountValidation;
     }
 }

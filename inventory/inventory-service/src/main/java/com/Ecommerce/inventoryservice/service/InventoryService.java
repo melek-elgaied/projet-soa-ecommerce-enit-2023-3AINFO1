@@ -37,27 +37,6 @@ public class InventoryService {
     public void  deleteIventory(Long id){
         inventoryRepository.deleteById(id);}
 
-    public Optional<Integer> getProductAvailableQuantity(Long id) {
-        Optional<Inventory> inventory = inventoryRepository.findById(id);
-        if (inventory.isPresent()) {
-            return Optional.of(inventory.get().getStockQuantity());
-        }
-        return Optional.of(0);
-    }
-    @Transactional
-    public boolean enregistrerSortieCommande(Long productId, int quantityToDeduct) {
-        Optional<Inventory> inventoryOpt = inventoryRepository.findById(productId);
-        if (inventoryOpt.isPresent()) {
-            Inventory inventory = inventoryOpt.get();
-            int newReservedQuantity = inventory.getReservedQuantity() - quantityToDeduct;
-            if (newReservedQuantity >= 0) {
-                inventory.setReservedQuantity(newReservedQuantity);
-                inventoryRepository.save(inventory);
-                return true;
-            }
-        }
-        return false;
-    }
     public boolean updateQuantityProduct(Long productId, int addedQuantity) {
         Optional<Inventory> inventoryOpt = inventoryRepository.findById(productId);
         if (inventoryOpt.isPresent()) {
@@ -66,6 +45,33 @@ public class InventoryService {
             inventory.setStockQuantity(newQuantity);
             inventoryRepository.save(inventory);
             return true;
+        }
+        return false;
+    }
+
+    public Optional<Integer> getProductAvailableQuantity(Long id) {
+        Optional<Inventory> inventory = inventoryRepository.findById(id);
+        if (inventory.isPresent()) {
+            return Optional.of(inventory.get().getStockQuantity()-inventory.get().getReservedQuantity());
+        }
+        return Optional.of(0);
+    }
+    @Transactional
+    public boolean enregistrerSortieCommande(Long productId, int quantityToDeduct) {
+        Optional<Inventory> inventoryOpt = inventoryRepository.findById(productId);
+        if (inventoryOpt.isPresent()) {
+            Inventory inventory = inventoryOpt.get();
+            int reservedQuantity = inventory.getReservedQuantity();
+            if ( reservedQuantity>= quantityToDeduct) {
+                int newReservedQuantity = inventory.getReservedQuantity() - quantityToDeduct;
+                int newStockQuantity = inventory.getStockQuantity() - quantityToDeduct;
+                inventory.setReservedQuantity(newReservedQuantity);
+                inventory.setStockQuantity(newStockQuantity);
+
+                inventoryRepository.save(inventory);
+                return true;
+            }
+
         }
         return false;
     }

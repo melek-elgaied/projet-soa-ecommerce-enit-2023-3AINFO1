@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,8 +34,8 @@ public class PricingService {
             Optional<Discount> optionalDiscount = discountRepository.findMaxPercentageDiscountByProduct(productPrice);
             if (optionalDiscount.isPresent()) {
                 Discount discount = optionalDiscount.get();
-                double discountedPrice = productPrice.getProductPrice() * (1 - discount.getDiscountPercentage());
-                productPrice.setProductPrice(discountedPrice);
+                double discountedPrice = productPrice.getProductPrice() * (1 - (discount.getDiscountPercentage()/100));
+                return Optional.of(new ProductPrice(productPrice.getProductId(),discountedPrice));
             }
         }
         return o;
@@ -43,17 +45,13 @@ public class PricingService {
     @Transactional
     public List<ProductPrice> getAllPrices() {
         List<ProductPrice> allPrices = productRepository.findAllProducts();
+        List<ProductPrice> discountedPrices = new ArrayList<>();
+
         for (ProductPrice p : allPrices) {
-            Optional<Discount> discountOptional = discountRepository.findMaxPercentageDiscountByProduct(p);
-            if (discountOptional.isPresent()) {
-                Discount discount = discountOptional.get();
-                if (discount.isValid()) {
-                    double discountedPrice = p.getProductPrice() * (1 - discount.getDiscountPercentage());
-                    p.setProductPrice(discountedPrice);
-                }
-            }
+            Optional<ProductPrice> discountedPrice = getPriceByProductId(p.getProductId());
+            discountedPrice.ifPresent(discountedPrices::add);
         }
-        return allPrices;
+        return discountedPrices;
     }
 
     @Transactional
@@ -74,6 +72,22 @@ public class PricingService {
             }
         }
         return somme;
+    }
+    @Transactional
+    public double calculateOrderPriceTotal(Map<UUID, Integer> productList) {
+        double total = 0;
+        for (Map.Entry<UUID, Integer> entry : productList.entrySet()) {
+            UUID productId = entry.getKey();
+            int quantity = entry.getValue();
+
+            Optional<ProductPrice> productPriceOptional = getPriceByProductId(productId);
+            if (productPriceOptional.isPresent()) {
+                ProductPrice productPrice = productPriceOptional.get();
+                double price = productPrice.getProductPrice();
+                total += (price * quantity);
+            }
+        }
+        return total;
     }
 
     @Transactional
@@ -96,20 +110,34 @@ public class PricingService {
 
     @Transactional
     public void extendDiscountEndDate(UUID idProduct, LocalDateTime discountEndDate) {
-        Optional<Discount> optionalDiscount = discountRepository.findDiscountById(idProduct);
-        optionalDiscount.ifPresent(discount -> {
-            discount.setDiscountEndDate(discountEndDate);
-            discountRepository.updateDiscount(discount);
-        });
+        Optional<ProductPrice> productOptional = productRepository.findProductById(idProduct);
+        if (productOptional.isPresent()) {
+            ProductPrice product = productOptional.get();
+
+            List<Discount> discounts = discountRepository.findDiscountsByProduct(product);
+            Optional<Discount> optionalDiscount = discounts.stream().findFirst();
+
+            optionalDiscount.ifPresent(discount -> {
+                discount.setDiscountEndDate(discountEndDate);
+                discountRepository.updateDiscount(discount);
+            });
+        }
     }
+
 
     @Transactional
     public void extendDiscountStartDate(UUID idProduct, LocalDateTime discountStartDate) {
-        Optional<Discount> optionalDiscount = discountRepository.findDiscountById(idProduct);
-        optionalDiscount.ifPresent(discount -> {
-            discount.setDiscountStartDate(discountStartDate);
-            discountRepository.updateDiscount(discount);
-        });
+        Optional<ProductPrice> productOptional = productRepository.findProductById(idProduct);
+        if (productOptional.isPresent()) {
+            ProductPrice product = productOptional.get();
+
+            List<Discount> discounts = discountRepository.findDiscountsByProduct(product);
+            Optional<Discount> optionalDiscount = discounts.stream().findFirst();
+            optionalDiscount.ifPresent(discount -> {
+                discount.setDiscountStartDate(discountStartDate);
+                discountRepository.updateDiscount(discount);
+            });
+        }
     }
 
     @Transactional

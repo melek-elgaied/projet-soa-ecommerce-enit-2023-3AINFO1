@@ -8,6 +8,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -36,9 +38,32 @@ public class PricingResource {
         return pricingService.getAllPrices();
     }
 
+//    @GET
+//    @Path("/orderPrice/{productList}")
+//    public double orderPrice(@QueryParam("productList") List<UUID> productList) {
+//        return pricingService.calculateOrderPrice(productList);
+//    }
+
+    /**
+     * Recevoir "order" (produits + quantités) et calculer le total
+     * List<String>=List<"idProduct:quantity"> => Map<UUID, Integer>= Map<idProduct, quantity>
+     */
     @GET
-    public double orderPrice(List<UUID> productList) {
-        return pricingService.calculateOrderPrice(productList);
+    @Path("/{orderTotalPrice}")
+    public double orderPriceTotal(@QueryParam("productListOrder") List<String> productListOrder) {
+        Map<UUID, Integer> productList = new HashMap<>();
+        for (String entry : productListOrder) {
+            String[] parts = entry.split(":");
+            if (parts.length == 2) {
+                UUID productId = UUID.fromString(parts[0]);
+                int quantity = Integer.parseInt(parts[1]);
+                productList.put(productId, quantity);
+            } else if (parts.length == 1) {
+                UUID productId = UUID.fromString(parts[0]);
+                productList.put(productId, 1);
+            }
+        }
+        return pricingService.calculateOrderPriceTotal(productList);
     }
 
     @POST

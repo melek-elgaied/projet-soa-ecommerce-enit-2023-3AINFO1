@@ -56,10 +56,15 @@ public class PricingResource {
     @POST
     @Path("/addDiscount")
     public void addDiscount(@QueryParam("idProduct") UUID idProduct,
-                                @QueryParam("percentage") double percentage,
-                                @QueryParam("discountStartDate") LocalDateTime discountStartDate,
-                                @QueryParam("discountEndDate") LocalDateTime discountEndDate) {
-        pricingService.addDiscount(idProduct, percentage, discountStartDate, discountEndDate);
+                            @QueryParam("percentage") double percentage,
+                            @QueryParam("discountStartDate") LocalDateTime discountStartDate,
+                            @QueryParam("discountEndDate") LocalDateTime discountEndDate) {
+        Optional<ProductPrice> productOptional = pricingService.getPriceByProductId(idProduct);
+
+        if (productOptional.isPresent()) {
+            ProductPrice product = productOptional.get();
+            pricingService.addDiscount(product, percentage, discountStartDate, discountEndDate);
+        }
     }
 
     @GET

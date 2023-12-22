@@ -56,6 +56,11 @@ public class PricingService {
         return allPrices;
     }
 
+    @Transactional
+    public List<Discount> getAllDiscounts() {
+        return discountRepository.findAllDiscounts();
+    }
+
 
     @Transactional
     public double calculateOrderPrice(List<UUID> productList) {
@@ -84,8 +89,8 @@ public class PricingService {
     }
 
     @Transactional
-    public void addDiscount(UUID idProduct, double percentage, LocalDateTime discountStartDate, LocalDateTime discountEndDate) {
-        Discount discount=new Discount(idProduct,percentage,discountStartDate,discountEndDate);
+    public void addDiscount(ProductPrice product, double percentage, LocalDateTime discountStartDate, LocalDateTime discountEndDate) {
+        Discount discount=new Discount(product,percentage,discountStartDate,discountEndDate);
         discountRepository.createDiscount(discount);
     }
 

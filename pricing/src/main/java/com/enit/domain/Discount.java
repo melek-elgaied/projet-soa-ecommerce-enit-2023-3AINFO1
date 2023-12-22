@@ -44,16 +44,10 @@ public class Discount{
         else {
             this.discountValidation = false;
         }
-        //this.product= new ProductPrice(product.getProductId(),product.getProductPrice());
         this.product= product;
     }
 
-    public Discount(UUID discountId, double discountPercentage, LocalDateTime discountStartDate, LocalDateTime discountEndDate, ProductPrice product) {
-        this.discountId = discountId;
-        this.discountPercentage = discountPercentage;
-        this.discountStartDate = discountStartDate;
-        this.discountEndDate = discountEndDate;
-        this.product = product;
+    public boolean isValid() {
+        return this.discountValidation;
     }
-
 }

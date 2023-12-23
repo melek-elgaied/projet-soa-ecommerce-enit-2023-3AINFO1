@@ -2,7 +2,6 @@ package com.SOA.search.service.implementation;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
@@ -257,7 +256,7 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
         return answer;
     }
 
-    public boolean isValidProduct(Product product){
+    private boolean isValidProduct(Product product){
         boolean answer = true;
         if (product.getId() == null || product.getDescription() == null || product.getDescription().trim().isEmpty()) {
             answer = false;

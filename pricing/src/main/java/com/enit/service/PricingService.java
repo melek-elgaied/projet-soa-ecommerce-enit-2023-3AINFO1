@@ -1,7 +1,7 @@
 package com.enit.service;
 
 import com.enit.domain.Discount;
-import com.enit.domain.OrderItem;
+import com.enit.domain.Order;
 import com.enit.domain.ProductPrice;
 import com.enit.domain.exceptions.EntityNotFoundException;
 import com.enit.repository.DiscountRepository;
@@ -63,41 +63,12 @@ public class PricingService {
         return discountRepository.findAllDiscounts();
     }
 
-    public double calculateOrderPrice(List<OrderItem> orderItems) {
-        double somme=0;
-        for (OrderItem item: orderItems) {
-            Optional<ProductPrice> o = getPriceByProductId(item.getIdProduct());
-            if (o.isPresent()) {
-                ProductPrice productPrice = o.get();
-                double price = productPrice.getProductPrice();
-                int quantity= item.getQuantity();
-                somme += price*quantity;
-            }
-        }
-        return somme;
-    }
-
-
-    /*@Transactional
-    public double calculateOrderPrice(List<UUID> productList) {
-        double somme = 0;
-        for (UUID id : productList) {
-            Optional<ProductPrice> productPriceOptional = getPriceByProductId(id);
-            if (productPriceOptional.isPresent()) {
-                ProductPrice productPrice = productPriceOptional.get();
-                double price = productPrice.getProductPrice();
-                somme += price;
-            }
-        }
-        return somme;
-    }*/
-
-    /*@Transactional
-    public double calculateOrderPriceTotal(Map<UUID, Integer> productList) {
+    @Transactional
+    public double calculateOrder(List<Order> productList) {
         double total = 0;
-        for (Map.Entry<UUID, Integer> entry : productList.entrySet()) {
-            UUID productId = entry.getKey();
-            int quantity = entry.getValue();
+        for (Order entry : productList) {
+            UUID productId = entry.getProductId();
+            int quantity = entry.getQuantity();
 
             Optional<ProductPrice> productPriceOptional = getPriceByProductId(productId);
             if (productPriceOptional.isPresent()) {
@@ -107,7 +78,7 @@ public class PricingService {
             }
         }
         return total;
-    }*/
+    }
 
     @Transactional
     public void addPrice(UUID idProduct, double price) {

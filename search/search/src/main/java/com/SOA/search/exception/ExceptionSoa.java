@@ -1,13 +1,15 @@
 package com.SOA.search.exception;
 
+public class ExceptionSoa extends RuntimeException {
 
-import lombok.AllArgsConstructor;
+    private String message = "";
 
-@AllArgsConstructor
-public class ExceptionSoa extends  RuntimeException  {
+    public ExceptionSoa(String message){
+        super(message);
+        this.message = message;
+    }
 
-    private String message;
-public String getExceptionMessage(){
-    return message;
-}
+    public String getExceptionMessage() {
+        return message;
+    }
 }

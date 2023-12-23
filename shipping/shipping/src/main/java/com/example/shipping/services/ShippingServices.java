@@ -55,7 +55,7 @@ public class ShippingServices {
 
         if (optionalShipment.isPresent()) {
             Shipping shipment = optionalShipment.get();
-            return shipment.addressUser;
+            return shipment.getAddressUser();
         }
         else {
             throw new EntityNotFoundException("Shipment with IdShipping " + idShipping + " not found");

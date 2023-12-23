@@ -42,7 +42,7 @@ public class ShippmentApi {
     }
     @GetMapping("/address")
     public ResponseEntity<String> getAddressByShipmentId(long userID) {
-        return new ResponseEntity<>(shippingServices.AddressByShippmentID( userID) ,HttpStatus.OK);
+        return new ResponseEntity<>(shippingServices.addressByShippmentID( userID) ,HttpStatus.OK);
 
     }
         @PutMapping("/deliverShippment")

@@ -50,4 +50,16 @@ public class ShippingServices {
         shipping.setStatus(ShipmentStatus.Pending);
         shippingRepo.save(shipping);
     }
+    public String AddressByShippmentID (Long idShipping) {
+        Optional<Shipping> optionalShipment = shippingRepo.findByIdShipping(id);
+
+        if (optionalShipment.isPresent()) {
+            Shipping shipment = optionalShipment.get();
+            return shipment.address;
+        }
+        else {
+            throw new EntityNotFoundException("Shipment with IdShipping " + id + " not found");
+        }
+
+    }
 }

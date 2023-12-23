@@ -27,7 +27,7 @@ public class ShippmentApi {
         return new ResponseEntity<>(shippings, HttpStatus.OK);
     }
 
-    @PostMapping("/startshippemnt")
+    @PutMapping("/startshippemnt")
     public ResponseEntity<Shipping> startShippementAPI(Long idShippment)
     {
         shippingServices.startShipment(idShippment);
@@ -40,8 +40,12 @@ public class ShippmentApi {
         shippingServices.takeOrder(shipping);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/address")
+    public ResponseEntity<String> getAddressByShipmentId(long userID) {
+        return new ResponseEntity<>(shippingServices.AddressByShippmentID( userID) ,HttpStatus.OK);
 
-    @PutMapping("/deliverShippment")
+    }
+        @PutMapping("/deliverShippment")
     public ResponseEntity<Shipping> deliverShippmentAPI(Long idShipping)
     {
         shippingServices.deliverShipment(idShipping);

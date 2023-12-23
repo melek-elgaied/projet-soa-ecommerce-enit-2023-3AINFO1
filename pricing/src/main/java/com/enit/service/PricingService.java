@@ -104,8 +104,8 @@ public class PricingService {
     public void updatePrice(UUID idProduct, double price) {
         Optional<ProductPrice> productOptional = getPriceByProductId(idProduct);
         if (productOptional.isPresent()) {
-            ProductPrice product = productOptional.get();
-            ProductPrice productPrice=new ProductPrice(idProduct,price);
+            ProductPrice productPrice = productOptional.get();
+            productPrice.setProductPrice(price);
             productRepository.updateProduct(productPrice);
         }else{
             throw new EntityNotFoundException("No product with id " + idProduct.toString());

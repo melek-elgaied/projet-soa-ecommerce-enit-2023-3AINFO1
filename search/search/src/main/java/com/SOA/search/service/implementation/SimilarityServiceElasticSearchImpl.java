@@ -2,6 +2,7 @@ package com.SOA.search.service.implementation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
@@ -45,10 +46,10 @@ import lombok.extern.log4j.Log4j2;
  * - Logging is performed using Log4j2. Errors and important information related to Elasticsearch
  *   operations are logged for monitoring and debugging purposes.
  *
- * @author Your Name
+ * @author Omar Romdhane.
  * @version 1.0
- * @since 2023-12-20
  */
+
 @Log4j2
 public class SimilarityServiceElasticSearchImpl implements SimilarityService {
 
@@ -111,7 +112,6 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
         BooleanResponse result = esClient.indices().exists(ExistsRequest.of(e -> e.index(elasticIndexName)));
         answer = result.value();
         return answer;
-
     }
 
     /**
@@ -143,6 +143,8 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
             if (response.found()) {
                 res = response.source();
             }
+        } catch(ExceptionSoa ex) {
+            throw ex;
         } catch (Exception e) {
             throw new RuntimeException("Error while fetching product by id.");
         }
@@ -200,6 +202,8 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
                 String errorMessage = "Error(s) occurred while indexing products. Failed products: " + failedProducts;
                 throw new ExceptionSoa(errorMessage);
             }
+        } catch(ExceptionSoa ex) {
+            throw ex;
         } catch (Exception e) {
             log.error("Error occurred while indexing products.", e);
             throw new ExceptionSoa("Error occurred while indexing products.");
@@ -241,8 +245,11 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
                     answer.add(similarProduct);
                 }
             }
+        } catch(ExceptionSoa ex) {
+            throw ex;
         } catch (Exception e) {
-            throw new ExceptionSoa("Exception while fetching similar products.");
+            log.error("Error while fetching similar products.",e);
+            throw new ExceptionSoa("Error while fetching similar products.");
         }
         return answer;
     }

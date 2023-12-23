@@ -155,7 +155,7 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
      * Indexes a list of products in Elasticsearch.
      *
      * @param products the list of products to be indexed.
-     * @throws BadRequestException if the number of products exceeds the maximum allowed for indexing.
+     * @throws BadRequestException if the number of products exceeds the maximum allowed for indexing or some of the required attributes are missing.
      * @throws ExceptionSoa        if an error occurs during indexing.
      * @throws IllegalArgumentException        if the products list is null.
      */
@@ -178,6 +178,9 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
         List<Product> failedProducts = new ArrayList<>();
 
         for (Product product : products) {
+            if(!isValidProduct(product)){
+                throw new BadRequestException("Id and description cannot be null or empty. Product with id {" + product.getId() +"} is invalid.");
+            }
             br.operations(op -> op
                     .index(idx -> idx
                             .index(elasticIndexName)
@@ -250,6 +253,14 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
         } catch (Exception e) {
             log.error("Error while fetching similar products.",e);
             throw new ExceptionSoa("Error while fetching similar products.");
+        }
+        return answer;
+    }
+
+    public boolean isValidProduct(Product product){
+        boolean answer = true;
+        if (product.getId() == null || product.getDescription() == null || product.getDescription().trim().isEmpty()) {
+            answer = false;
         }
         return answer;
     }

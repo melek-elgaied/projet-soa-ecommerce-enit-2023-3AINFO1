@@ -2,6 +2,7 @@ package com.enit.service;
 
 import com.enit.domain.Discount;
 import com.enit.domain.ProductPrice;
+import com.enit.domain.exceptions.EntityNotFoundException;
 import com.enit.repository.DiscountRepository;
 import com.enit.repository.ProductRepository;
 import io.quarkus.scheduler.Scheduled;
@@ -34,11 +35,14 @@ public class PricingService {
             Optional<Discount> optionalDiscount = discountRepository.findMaxPercentageDiscountByProduct(productPrice);
             if (optionalDiscount.isPresent()) {
                 Discount discount = optionalDiscount.get();
-                double discountedPrice = productPrice.getProductPrice() * (1 - (discount.getDiscountPercentage()/100));
-                return Optional.of(new ProductPrice(productPrice.getProductId(),discountedPrice));
+                double discountedPrice = productPrice.getProductPrice() * (1 - (discount.getDiscountPercentage() / 100));
+                return Optional.of(new ProductPrice(productPrice.getProductId(), discountedPrice));
+            } else {
+                return o;
             }
+        } else {
+            throw new EntityNotFoundException("No product with id " + id.toString());
         }
-        return o;
     }
 
 
@@ -98,8 +102,14 @@ public class PricingService {
 
     @Transactional
     public void updatePrice(UUID idProduct, double price) {
-        ProductPrice productPrice=new ProductPrice(idProduct,price);
-        productRepository.updateProduct(productPrice);
+        Optional<ProductPrice> productOptional = getPriceByProductId(idProduct);
+        if (productOptional.isPresent()) {
+            ProductPrice product = productOptional.get();
+            ProductPrice productPrice=new ProductPrice(idProduct,price);
+            productRepository.updateProduct(productPrice);
+        }else{
+            throw new EntityNotFoundException("No product with id " + idProduct.toString());
+        }
     }
 
     @Transactional
@@ -129,6 +139,8 @@ public class PricingService {
                 }
                 discountRepository.updateDiscount(discount);
             });
+        }else{
+            throw new EntityNotFoundException("No discount with product id " + idProduct.toString());
         }
     }
 
@@ -149,6 +161,8 @@ public class PricingService {
                 }
                 discountRepository.updateDiscount(discount);
             });
+        }else{
+            throw new EntityNotFoundException("No discount with product id " + idProduct.toString());
         }
     }
 

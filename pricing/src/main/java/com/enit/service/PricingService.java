@@ -1,6 +1,7 @@
 package com.enit.service;
 
 import com.enit.domain.Discount;
+import com.enit.domain.OrderItem;
 import com.enit.domain.ProductPrice;
 import com.enit.domain.exceptions.EntityNotFoundException;
 import com.enit.repository.DiscountRepository;
@@ -62,8 +63,22 @@ public class PricingService {
         return discountRepository.findAllDiscounts();
     }
 
+    public double calculateOrderPrice(List<OrderItem> orderItems) {
+        double somme=0;
+        for (OrderItem item: orderItems) {
+            Optional<ProductPrice> o = getPriceByProductId(item.getIdProduct());
+            if (o.isPresent()) {
+                ProductPrice productPrice = o.get();
+                double price = productPrice.getProductPrice();
+                int quantity= item.getQuantity();
+                somme += price*quantity;
+            }
+        }
+        return somme;
+    }
 
-    @Transactional
+
+    /*@Transactional
     public double calculateOrderPrice(List<UUID> productList) {
         double somme = 0;
         for (UUID id : productList) {
@@ -75,9 +90,9 @@ public class PricingService {
             }
         }
         return somme;
-    }
+    }*/
 
-    @Transactional
+    /*@Transactional
     public double calculateOrderPriceTotal(Map<UUID, Integer> productList) {
         double total = 0;
         for (Map.Entry<UUID, Integer> entry : productList.entrySet()) {
@@ -92,7 +107,7 @@ public class PricingService {
             }
         }
         return total;
-    }
+    }*/
 
     @Transactional
     public void addPrice(UUID idProduct, double price) {

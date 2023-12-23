@@ -1,6 +1,7 @@
 package com.enit.api;
 
 
+import com.enit.domain.OrderItem;
 import com.enit.domain.ProductPrice;
 import com.enit.domain.Discount;
 import com.enit.service.PricingService;
@@ -48,7 +49,7 @@ public class PricingResource {
      * Recevoir "order" (produits + quantités) et calculer le total
      * List<String>=List<"idProduct:quantity"> => Map<UUID, Integer>= Map<idProduct, quantity>
      */
-    @GET
+    /*@GET
     @Path("/{orderTotalPrice}")
     public double orderPriceTotal(@QueryParam("productListOrder") List<String> productListOrder) {
         Map<UUID, Integer> productList = new HashMap<>();
@@ -64,6 +65,12 @@ public class PricingResource {
             }
         }
         return pricingService.calculateOrderPriceTotal(productList);
+    }*/
+
+    @POST
+    @Path("/calculatePrice")
+    public double calculateOrderPrice(List<OrderItem> orderItems) {
+        return pricingService.calculateOrderPrice(orderItems);
     }
 
     @POST

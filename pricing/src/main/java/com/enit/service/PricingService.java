@@ -46,7 +46,6 @@ public class PricingService {
     public List<ProductPrice> getAllPrices() {
         List<ProductPrice> allPrices = productRepository.findAllProducts();
         List<ProductPrice> discountedPrices = new ArrayList<>();
-
         for (ProductPrice p : allPrices) {
             Optional<ProductPrice> discountedPrice = getPriceByProductId(p.getProductId());
             discountedPrice.ifPresent(discountedPrices::add);
@@ -73,6 +72,7 @@ public class PricingService {
         }
         return somme;
     }
+
     @Transactional
     public double calculateOrderPriceTotal(Map<UUID, Integer> productList) {
         double total = 0;
@@ -111,30 +111,38 @@ public class PricingService {
     @Transactional
     public void extendDiscountEndDate(UUID idProduct, LocalDateTime discountEndDate) {
         Optional<ProductPrice> productOptional = productRepository.findProductById(idProduct);
+        LocalDateTime currentDate = LocalDateTime.now();
         if (productOptional.isPresent()) {
             ProductPrice product = productOptional.get();
-
             List<Discount> discounts = discountRepository.findDiscountsByProduct(product);
             Optional<Discount> optionalDiscount = discounts.stream().findFirst();
-
             optionalDiscount.ifPresent(discount -> {
                 discount.setDiscountEndDate(discountEndDate);
+                if(discount.getDiscountStartDate().isBefore(currentDate.plusDays(1)) && discount.getDiscountEndDate().isAfter(currentDate.minusDays(1))) {
+                    discount.setDiscountValidation(true);
+                }else {
+                    discount.setDiscountValidation(false);
+                }
                 discountRepository.updateDiscount(discount);
             });
         }
     }
 
-
     @Transactional
     public void extendDiscountStartDate(UUID idProduct, LocalDateTime discountStartDate) {
         Optional<ProductPrice> productOptional = productRepository.findProductById(idProduct);
+        LocalDateTime currentDate = LocalDateTime.now();
         if (productOptional.isPresent()) {
             ProductPrice product = productOptional.get();
-
             List<Discount> discounts = discountRepository.findDiscountsByProduct(product);
             Optional<Discount> optionalDiscount = discounts.stream().findFirst();
             optionalDiscount.ifPresent(discount -> {
                 discount.setDiscountStartDate(discountStartDate);
+                if(discount.getDiscountStartDate().isBefore(currentDate.plusDays(1)) && discount.getDiscountEndDate().isAfter(currentDate.minusDays(1))) {
+                    discount.setDiscountValidation(true);
+                }else {
+                    discount.setDiscountValidation(false);
+                }
                 discountRepository.updateDiscount(discount);
             });
         }

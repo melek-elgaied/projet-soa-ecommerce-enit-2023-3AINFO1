@@ -19,7 +19,7 @@ import java.util.UUID;
 public class PricingResource {
 
     @Inject
-    private PricingService pricingService;
+    PricingService pricingService;
 
     @GET
     @Path("/{id}")
@@ -84,12 +84,7 @@ public class PricingResource {
                             @QueryParam("percentage") double percentage,
                             @QueryParam("discountStartDate") LocalDateTime discountStartDate,
                             @QueryParam("discountEndDate") LocalDateTime discountEndDate) {
-        Optional<ProductPrice> productOptional = pricingService.getPriceByProductId(idProduct);
-
-        if (productOptional.isPresent()) {
-            ProductPrice product = productOptional.get();
-            pricingService.addDiscount(product, percentage, discountStartDate, discountEndDate);
-        }
+            pricingService.addDiscount(idProduct, percentage, discountStartDate, discountEndDate);
     }
 
     @GET

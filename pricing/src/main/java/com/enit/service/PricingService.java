@@ -103,9 +103,13 @@ public class PricingService {
     }
 
     @Transactional
-    public void addDiscount(ProductPrice product, double percentage, LocalDateTime discountStartDate, LocalDateTime discountEndDate) {
-        Discount discount=new Discount(product,percentage,discountStartDate,discountEndDate);
-        discountRepository.createDiscount(discount);
+    public void addDiscount(UUID idProduct, double percentage, LocalDateTime discountStartDate, LocalDateTime discountEndDate) {
+        Optional<ProductPrice> productOptional = getPriceByProductId(idProduct);
+        if (productOptional.isPresent()) {
+            ProductPrice product = productOptional.get();
+            Discount discount=new Discount(product,percentage,discountStartDate,discountEndDate);
+            discountRepository.createDiscount(discount);
+        }
     }
 
     @Transactional

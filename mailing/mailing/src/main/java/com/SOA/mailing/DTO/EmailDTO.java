@@ -1,17 +1,16 @@
 package com.SOA.mailing.DTO;
 
-import com.SOA.mailing.Enum.StatusEmail;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Map;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Getter
+@Setter
 public class EmailDTO {
 
     @NotBlank
@@ -19,5 +18,7 @@ public class EmailDTO {
 
     private String emailTo;
     private String subject;
+    private Map<String, Object> dataReplacement;
+    private String attachment;
 
 }

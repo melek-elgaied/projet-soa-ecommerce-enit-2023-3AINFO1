@@ -3,7 +3,6 @@ package com.SOA.mailing.Controller;
 
 import com.SOA.mailing.DTO.EmailDTO;
 import com.SOA.mailing.Exception.EntityException;
-import com.SOA.mailing.Model.Email;
 import com.SOA.mailing.Service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,15 +17,15 @@ import org.thymeleaf.context.Context;
 public class EmailController {
     @Autowired
     private EmailService emailService;
-    @PostMapping("/sending-email/{templatename}")
+    @PostMapping("/sending-email/{templateName}")
     public ResponseEntity<?> sendEmail(@RequestBody EmailDTO emailDTO, @PathVariable String templateName) throws EntityException {
         Context context = new Context();
-        //context.setVariable("subject",);
-        //context.setVariable("ClientEmail",email.getEmailTo());
-
-
        return new ResponseEntity<>(emailService.sendSimpleEmail(emailDTO,templateName,context), HttpStatus.CREATED);}
 
+    @PostMapping("/sending-email-attachment/{templateName}")
+    public ResponseEntity<?> sendEmailWithAttachment(@RequestBody EmailDTO emailDTO, @PathVariable String templateName) throws EntityException {
+        Context context = new Context();
+        return new ResponseEntity<>(emailService.sendEmailWithAttachment(emailDTO,templateName,context), HttpStatus.CREATED);}
 
 
     @GetMapping("/getAllEmails")

@@ -40,10 +40,12 @@ public class DatabaseTemplateResolver extends StringTemplateResolver {
                                                         Map<String, Object> templateResolutionAttributes) {
         logger.info("Loading template named {} from DB", templateName);
         Optional<EmailTemplate> template = emailTemplateRepository.findEmailTemplateByName(templateName);
-        //logger.info(template.get().getBody());
+
         if (!template.isPresent()) {
             return null;
         }
+        logger.info(template.get().getBody());
+
         return super
                 .computeTemplateResource(configuration, ownerTemplate, template.get().getBody(), templateResolutionAttributes);
     }

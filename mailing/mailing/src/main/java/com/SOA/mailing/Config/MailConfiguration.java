@@ -18,8 +18,8 @@ public class MailConfiguration {
         mailSender.setHost("sandbox.smtp.mailtrap.io");
         mailSender.setPort(25);
 
-        mailSender.setUsername("b219cc38a10a90");
-        mailSender.setPassword("72fcc7f6d65c5e");
+        mailSender.setUsername("bac5a587d09180");
+        mailSender.setPassword("b06fe13ed1140c");
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
@@ -29,7 +29,7 @@ public class MailConfiguration {
         // creates a new session with an authenticator
         Authenticator auth = new Authenticator() {
             public PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("b219cc38a10a90","72fcc7f6d65c5e");
+                return new PasswordAuthentication("bac5a587d09180","b06fe13ed1140c");
             }
         };
 

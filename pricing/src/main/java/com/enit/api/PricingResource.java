@@ -1,6 +1,7 @@
 package com.enit.api;
 
 
+import com.enit.domain.Order;
 import com.enit.domain.ProductPrice;
 import com.enit.domain.Discount;
 import com.enit.service.PricingService;
@@ -19,7 +20,7 @@ import java.util.UUID;
 public class PricingResource {
 
     @Inject
-    private PricingService pricingService;
+    PricingService pricingService;
 
     @GET
     @Path("/{id}")
@@ -37,35 +38,6 @@ public class PricingResource {
     public List<ProductPrice> allPrices() {
         return pricingService.getAllPrices();
     }
-
-//    @GET
-//    @Path("/orderPrice/{productList}")
-//    public double orderPrice(@QueryParam("productList") List<UUID> productList) {
-//        return pricingService.calculateOrderPrice(productList);
-//    }
-
-    /**
-     * Recevoir "order" (produits + quantités) et calculer le total
-     * List<String>=List<"idProduct:quantity"> => Map<UUID, Integer>= Map<idProduct, quantity>
-     */
-    @GET
-    @Path("/{orderTotalPrice}")
-    public double orderPriceTotal(@QueryParam("productListOrder") List<String> productListOrder) {
-        Map<UUID, Integer> productList = new HashMap<>();
-        for (String entry : productListOrder) {
-            String[] parts = entry.split(":");
-            if (parts.length == 2) {
-                UUID productId = UUID.fromString(parts[0]);
-                int quantity = Integer.parseInt(parts[1]);
-                productList.put(productId, quantity);
-            } else if (parts.length == 1) {
-                UUID productId = UUID.fromString(parts[0]);
-                productList.put(productId, 1);
-            }
-        }
-        return pricingService.calculateOrderPriceTotal(productList);
-    }
-
     @POST
     @Path("/addPrice")
     public void addPrice(@QueryParam("id") UUID idProduct, @QueryParam("price") double price) {
@@ -84,12 +56,7 @@ public class PricingResource {
                             @QueryParam("percentage") double percentage,
                             @QueryParam("discountStartDate") LocalDateTime discountStartDate,
                             @QueryParam("discountEndDate") LocalDateTime discountEndDate) {
-        Optional<ProductPrice> productOptional = pricingService.getPriceByProductId(idProduct);
-
-        if (productOptional.isPresent()) {
-            ProductPrice product = productOptional.get();
-            pricingService.addDiscount(product, percentage, discountStartDate, discountEndDate);
-        }
+            pricingService.addDiscount(idProduct, percentage, discountStartDate, discountEndDate);
     }
 
     @GET
@@ -109,6 +76,12 @@ public class PricingResource {
     public void extendDiscountStartDate(@QueryParam("idProduct") UUID idProduct,
                                             @QueryParam("discountStartDate") LocalDateTime discountStartDate) {
         pricingService.extendDiscountStartDate(idProduct, discountStartDate);
+    }
+
+    @POST
+    @Path("/order")
+    public double order(List<Order> orderList) {
+        return pricingService.calculateOrder(orderList);
     }
 }
 

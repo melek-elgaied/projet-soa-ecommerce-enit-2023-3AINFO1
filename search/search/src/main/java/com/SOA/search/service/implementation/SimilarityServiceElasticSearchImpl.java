@@ -150,6 +150,10 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
         return res;
     }
 
+    private void removeProductElasticSearch(Long id) throws IOException{
+        esClient.delete(d -> d.index(elasticIndexName).id(String.valueOf(id)));
+    }
+
     /**
      * Indexes a list of products in Elasticsearch.
      *
@@ -254,6 +258,18 @@ public class SimilarityServiceElasticSearchImpl implements SimilarityService {
             throw new ExceptionSoa("Error while fetching similar products.");
         }
         return answer;
+    }
+
+    public void removeFromIndex(Long id){
+        if(id == null){
+            throw new IllegalArgumentException("Id can not be null.");
+        }
+        try {
+            removeProductElasticSearch(id);
+        } catch (Exception e) {
+            log.error("Error while fetching product with id {" + id + "}");
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean isValidProduct(Product product){

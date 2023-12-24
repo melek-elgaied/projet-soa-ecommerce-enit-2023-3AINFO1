@@ -7,6 +7,7 @@ import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.SOA.search.dao.ProductElasticSearchRepository;
 import com.SOA.search.dto.SearchQuery;
+import com.SOA.search.dto.SearchQueryWithPrice;
 import com.SOA.search.exception.BadRequestException;
 import com.SOA.search.model.Product;
 import com.SOA.search.service.SearchService;
@@ -66,12 +67,30 @@ public class SearchServiceElasticSearchImpl implements SearchService {
     }
 
 
-    public SearchResponse<Product> matchProductsWithDescription(String fieldValue) throws IOException {
-        Supplier<Query> supplier  = ElasticSearchUtil.supplierWithIdField(fieldValue);
+    public SearchResponse<Product> matchProductsWithName(String fieldValue) throws IOException {
+        Supplier<Query> supplier  = ElasticSearchUtil.supplierWithNameField(fieldValue);
         SearchResponse<Product> searchResponse = elasticsearchClient.search(s->s.index("products").query(supplier.get()),Product.class);
         System.out.println("elasticsearch query is "+supplier.get().toString());
         return searchResponse;
     }
+
+
+    public SearchResponse<Product> fuzzySearch(SearchQuery searchquery) throws IOException {
+        Supplier<Query> supplier  = ElasticSearchUtil.createSupplierQuery(searchquery.getQuery());
+        SearchResponse<Product> searchResponse = elasticsearchClient.
+                search(s->s.index("products").query(supplier.get()),Product.class);
+        System.out.println("elasticsearch fuzzy query is "+supplier.get().toString());
+        return searchResponse;
+    }
+
+    public SearchResponse<Product> boolQueryImpl(SearchQueryWithPrice searchQueryWithPrice) throws IOException {
+        Supplier<Query> supplier  = ElasticSearchUtil.supplierQueryBool(searchQueryWithPrice.getQuery(), searchQueryWithPrice.getMinPrice(),searchQueryWithPrice.getMaxPrice());
+        SearchResponse<Product> searchResponse = elasticsearchClient.search(s->s.index("products").query(supplier.get()),Product.class);
+        System.out.println("elasticsearch bool query is "+supplier.get().toString());
+        return searchResponse;
+    }
+
+
 
     @Override
     public Iterable<Product> findAll() {

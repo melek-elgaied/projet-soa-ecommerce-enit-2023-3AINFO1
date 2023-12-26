@@ -19,11 +19,11 @@ public class InventoryServiceApplication {
 		return args -> {
 			Inventory inventory = new Inventory();
 			inventory.setProductName("iphone_13");
-			inventory.setAvailableQuantity(100);
+			inventory.setStockQuantity(100);
 
 			Inventory inventory1 = new Inventory();
 			inventory1.setProductName("iphone_13_red");
-			inventory1.setAvailableQuantity(50); // Assuming 50 as available quantity for 'iphone_13_red'
+			inventory1.setStockQuantity(50); // Assuming 50 as available quantity for 'iphone_13_red'
 
 			inventoryRepository.save(inventory);
 			inventoryRepository.save(inventory1);

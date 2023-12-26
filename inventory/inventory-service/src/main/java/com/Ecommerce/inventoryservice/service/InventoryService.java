@@ -48,7 +48,13 @@ public class InventoryService {
         }
         return false;
     }
-
+    public Optional<Integer> getProductReservedQuantity(Long id) {
+        Optional<Inventory> inventory = inventoryRepository.findById(id);
+        if (inventory.isPresent()) {
+            return Optional.of(inventory.get().getReservedQuantity());
+        }
+        return Optional.of(0);
+    }
     public Optional<Integer> getProductAvailableQuantity(Long id) {
         Optional<Inventory> inventory = inventoryRepository.findById(id);
         if (inventory.isPresent()) {
@@ -74,5 +80,37 @@ public class InventoryService {
 
         }
         return false;
+    }
+    public boolean reserveProduct(Long productId, int reservedQuantity) {
+        Optional<Inventory> inventoryOpt = inventoryRepository.findById(productId);
+
+        if (inventoryOpt.isPresent()) {
+            Inventory inventory = inventoryOpt.get();
+            int stockQuantity = inventory.getStockQuantity();
+            if (stockQuantity >= reservedQuantity) {
+                int newReservedQuantity = inventory.getReservedQuantity() + reservedQuantity;
+                inventory.setReservedQuantity(newReservedQuantity);
+                inventoryRepository.save(inventory);
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+
+    }
+    public boolean cancelProductRservation(Long productId, int reservedQuantity) {
+        Optional<Inventory> inventoryOpt = inventoryRepository.findById(productId);
+        if (inventoryOpt.isPresent()) {
+            Inventory inventory = inventoryOpt.get();
+            int oldreservedQuantity = inventory.getReservedQuantity();
+            if(oldreservedQuantity >= reservedQuantity )
+            {int newReservedQuantity = oldreservedQuantity - reservedQuantity;
+                inventory.setReservedQuantity(newReservedQuantity);
+                inventoryRepository.save(inventory);
+                return true;
+            }}
+
+        return false ;
     }
 }

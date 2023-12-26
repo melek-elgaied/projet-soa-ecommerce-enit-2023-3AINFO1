@@ -26,4 +26,27 @@ public class Inventory {
     @Column (name="reserved_quantity")
     private int reservedQuantity;
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public int getReservedQuantity() {
+        return reservedQuantity;
+    }
+
+    public void setReservedQuantity(int reservedQuantity) {
+        this.reservedQuantity = reservedQuantity;
+    }
 }

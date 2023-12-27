@@ -1,0 +1,35 @@
+ 
+application:
+  id: catalog
+
+logging: INFO
+
+rest:
+  jsonHome: true
+
+jdbc:
+  datasources:
+    catalog:
+      url: jdbc:hsqldb:mem:catalog
+
+jpa:
+  units:
+    catalogDomain:
+      datasource: catalog
+      properties:
+        hibernate.dialect: org.hibernate.dialect.HSQLDialect
+        hibernate.hbm2ddl.auto: update
+
+classes:
+  org:
+    seedstack:
+      samples:
+        catalog:
+          domain:
+            jpaUnit: catalogDomain
+
+web:
+  cors:
+    enabled: true
+    properties:
+      supportedMethods: GET, POST, HEAD, OPTIONS, PUT, DELETE

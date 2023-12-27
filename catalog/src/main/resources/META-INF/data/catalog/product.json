@@ -1,0 +1,120 @@
+[
+  {
+    "group": "catalog",
+    "name": "product",
+    "items": [
+      {
+        "name": "Xixan",
+        "picture": "https://placeimg.com/700/300/tech",
+        "pricing": {
+          "amount": 317.35,
+          "currency": "USD"
+        },
+        "description": "Ipsum incididunt esse enim dolore eiusmod labore officia reprehenderit sint. Excepteur aute tempor ex eiusmod excepteur quis veniam magna sit. Esse enim adipisicing excepteur cupidatat veniam. Est Lorem mollit eu magna officia adipisicing. Laboris esse dolore enim sint aliqua ad labore non.\r\nEiusmod esse duis labore ea ex veniam consectetur ipsum. Dolore ipsum voluptate cillum mollit labore consectetur ad officia cillum culpa veniam officia nulla labore. Irure quis sint veniam eiusmod labore fugiat in non est officia.\r\n",
+        "details": [
+          "labore in cillum dolor",
+          "nisi ipsum laboris qui",
+          "veniam nostrud aute amet",
+          "nulla ipsum id laborum",
+          "consectetur laboris adipisicing reprehenderit"
+        ]
+      },
+      {
+        "name": "Skybold",
+        "picture": "https://placeimg.com/700/300/tech",
+        "pricing": {
+          "amount": 321.54,
+          "currency": "USD"
+        },
+        "description": "Eiusmod esse sunt commodo occaecat ex. Cillum ullamco commodo ut pariatur in. Eiusmod sunt reprehenderit deserunt reprehenderit ea commodo. Ex enim tempor occaecat veniam consequat mollit ullamco reprehenderit cillum duis anim. Proident enim elit ad magna magna consequat adipisicing pariatur ex dolor labore duis do aliquip. Ad ea est ex adipisicing voluptate. Quis eiusmod aute est id sunt nulla mollit anim et aute non eiusmod pariatur.\r\nCulpa excepteur aliqua laboris dolor dolor eu culpa tempor eiusmod incididunt veniam magna. Cillum ea enim amet aliquip sint. Aliqua Lorem pariatur amet culpa proident consectetur anim qui nisi nisi dolor. Nostrud laboris labore minim irure ea et nulla deserunt qui cupidatat magna duis. Tempor exercitation reprehenderit nisi voluptate incididunt reprehenderit occaecat elit nostrud laborum laborum cupidatat et.\r\n",
+        "details": [
+          "ullamco enim minim dolore",
+          "quis excepteur Lorem non",
+          "est ullamco eu veniam",
+          "et ex eiusmod quis",
+          "veniam magna magna ullamco"
+        ]
+      },
+      {
+        "name": "Gaptec",
+        "picture": "https://placeimg.com/700/300/tech",
+        "pricing": {
+          "amount": 44.05,
+          "currency": "USD"
+        },
+        "description": "Magna consectetur nostrud consequat est sit deserunt aliquip. Culpa in nulla voluptate occaecat dolore aliquip laboris minim fugiat reprehenderit. Et ea non elit esse in aliquip aliqua eiusmod exercitation. Ut Lorem enim consectetur incididunt quis nisi mollit. Adipisicing esse labore qui do aute irure magna in ad. Aliquip non commodo nulla minim culpa ex sit culpa sunt non velit.\r\nCommodo nostrud veniam duis quis proident mollit id minim. Cillum nisi cillum minim proident eu eiusmod magna nulla duis. Id ipsum est anim eu anim ut.\r\n",
+        "details": [
+          "ullamco labore fugiat adipisicing",
+          "adipisicing quis eu ut",
+          "ex ipsum pariatur laborum",
+          "nisi excepteur fugiat irure",
+          "excepteur ullamco laborum proident"
+        ]
+      },
+      {
+        "name": "Norali",
+        "picture": "https://placeimg.com/700/300/tech",
+        "pricing": {
+          "amount": 80.66,
+          "currency": "USD"
+        },
+        "description": "Labore aliquip consectetur quis exercitation aute amet sint sunt nostrud tempor et adipisicing duis nisi. Incididunt nisi nostrud ipsum sit pariatur sint laborum exercitation do ullamco enim. Eu irure mollit cillum ullamco laborum id laborum et amet non nostrud aliqua aliqua aute. Aliqua deserunt excepteur elit eu mollit dolor ex consectetur. Nostrud enim fugiat exercitation ut aute adipisicing sit dolor nostrud irure.\r\nEst minim ad labore reprehenderit eiusmod tempor laboris culpa voluptate esse. Duis cupidatat sit fugiat ex laboris cillum. Ex nulla commodo quis deserunt amet incididunt est non exercitation incididunt reprehenderit et.\r\n",
+        "details": [
+          "incididunt non ut ipsum",
+          "id dolor id quis",
+          "anim enim in ea",
+          "in sunt ipsum irure",
+          "cillum esse dolore ipsum"
+        ]
+      },
+      {
+        "name": "Bleendot",
+        "picture": "https://placeimg.com/700/300/tech",
+        "pricing": {
+          "amount": 123.82,
+          "currency": "USD"
+        },
+        "description": "Sit aliqua in cillum deserunt Lorem eu irure aliqua aliquip dolore. Occaecat mollit commodo ex quis. Nulla exercitation commodo cupidatat deserunt. Sit consectetur proident cupidatat ullamco ipsum exercitation id adipisicing anim ea cillum consequat. Aliqua magna excepteur nisi consequat ut eiusmod eiusmod ea deserunt pariatur ad ad. Commodo officia ex exercitation minim veniam ullamco exercitation sunt commodo ex esse. Nulla in pariatur velit ad fugiat.\r\nOccaecat reprehenderit cupidatat occaecat excepteur occaecat velit magna. Aliquip ipsum minim amet dolor quis veniam culpa enim officia ipsum consectetur aliquip mollit. Aliqua id laborum reprehenderit exercitation voluptate anim pariatur aute minim nisi enim Lorem consequat est.\r\n",
+        "details": [
+          "pariatur ipsum qui Lorem",
+          "qui amet laboris sunt",
+          "anim eu enim quis",
+          "duis amet ipsum quis",
+          "incididunt aute deserunt officia"
+        ]
+      },
+      {
+        "name": "Zytrax",
+        "picture": "https://placeimg.com/700/300/tech",
+        "pricing": {
+          "amount": 377.31,
+          "currency": "USD"
+        },
+        "description": "Amet voluptate commodo laborum qui aliqua ex eiusmod veniam velit dolore elit nulla commodo. Laboris consectetur sunt qui consectetur reprehenderit adipisicing. Dolor adipisicing nulla mollit ad velit duis consectetur sint exercitation mollit anim irure ex. Tempor nostrud do non commodo consectetur ipsum nulla.\r\nAute quis excepteur sint quis sunt quis dolore dolore eiusmod culpa do nulla ad ex. Do consequat labore sint elit veniam quis quis cillum est duis voluptate. Exercitation non non in reprehenderit cupidatat eu officia ea exercitation laborum ut dolor sit. Esse nisi dolor tempor non nisi reprehenderit. Ullamco in voluptate cupidatat consequat eu veniam aliqua excepteur occaecat labore aute. Ipsum enim fugiat labore velit cupidatat nisi do laborum velit sit.\r\n",
+        "details": [
+          "sit ut occaecat culpa",
+          "do dolor cillum occaecat",
+          "commodo incididunt ea et",
+          "cillum proident veniam velit",
+          "incididunt et duis ad"
+        ]
+      },
+      {
+        "name": "Exostream",
+        "picture": "https://placeimg.com/700/300/tech",
+        "pricing": {
+          "amount": 84.96,
+          "currency": "USD"
+        },
+        "description": "Laboris ipsum non ut reprehenderit irure eiusmod sit. Eu cillum excepteur veniam est consectetur commodo id eu magna esse incididunt. Eiusmod officia laborum ipsum incididunt eiusmod labore ullamco laboris. Excepteur incididunt est esse irure aliqua occaecat consequat qui voluptate ullamco adipisicing eu. Fugiat tempor nostrud eiusmod sunt irure aute est magna dolor sit magna Lorem enim occaecat. Exercitation consectetur consectetur labore et magna commodo pariatur do nisi amet duis in do. Incididunt laboris esse fugiat Lorem est commodo elit consequat in proident ullamco.\r\nEiusmod officia id fugiat nulla dolore enim ullamco magna ex incididunt. Anim velit elit Lorem cillum mollit tempor. Pariatur consectetur tempor proident quis esse magna nisi eiusmod pariatur qui adipisicing quis cupidatat amet.\r\n",
+        "details": [
+          "aliquip et magna mollit",
+          "dolore commodo amet eu",
+          "excepteur aute id fugiat",
+          "Lorem adipisicing aliquip esse",
+          "duis ad minim magna"
+        ]
+      }
+    ]
+  }
+]
